@@ -12,28 +12,38 @@ const scope = {
 
       function beautifyPerson() {
         // Log A: personB
+        console.log('person: ', personB); // Ben
         
         if (personB.includes('B')) {
           personB = person;
           personC = personB;
           // Log B: personC
+          console.log('person: ', personC); // CardiB
         }
       }
 
       personC = personA;
 
-      // Log C: personB
+      // Log C: personB 
+      console.log('person: ', personB); // 'CardiB'
     }
 
     changePerson();
 
-    // Log D: personC
+    // Log D: personC 
+    console.log('person: ', personC); // 'Paul'
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { A: 'Ben' },
+      { B: 'CardiB' },
+      { C: 'CardiB' },
+      { D: 'Paul' },
+    ];
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // A: Ben is declared within a grand parent function scope
+    // B: person variable is declared and 
   },
 
   exerciseB() {
@@ -46,24 +56,33 @@ const scope = {
         let number = 28;
       }
 
-      // Log A: number
+      // Log A: number 
+      console.log('A: ', number); // A, number: 75;
 
       function newNumber() {
         number = 64;
 
         // Log B: number
+        console.log('B: ', number); // B, number: 64;
       }
 
       newNumber();
 
       // Log C: number
+      console.log('C: ', number); // C, number: 64;
     }
 
     numberFunction();
 
-    // Log D: number
+    // Log D: number 
+    console.log('D: ', number); // D, number: 30;
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { A: 75 },
+      { B: 64 },
+      { C: 64 },
+      { D: 30 },
+    ];
     return result;
 
     // Annotation:
@@ -214,21 +233,29 @@ const scope = {
         var fruit = 'mango';
 
         if (fruit) {
-          // Log A: fruit
-          const fruit = 'strawberry';
+          // Log A: fruit // reference error
+          // console.log('A: ', fruit);
+          // const fruit = 'strawberry';
         }
-
-        // Log B: fruit
+        // Log B: fruit // mango
+        console.log('B: ', fruit);
       }
 
-      // Log C: fruit
+      // Log C: fruit // mango
+      console.log('C: ', fruit);
     }
 
     eatFruit();
 
-    // Log D: fruit
+    // Log D: fruit // apple
+    console.log('D: ', fruit);
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { A: 'reference error' },
+      { B: 'mango' },
+      { C: 'mango' },
+      { D: 'apple' }
+    ];
     return result;
 
     // Annotation:
@@ -241,7 +268,8 @@ const scope = {
     const fn1 = function() {
       let num = 4;
 
-      // Log A: num
+      // Log A: num // 4
+      console.log('A: ', num);
 
       if (num < 5) {
         const num = 9;
@@ -250,25 +278,34 @@ const scope = {
 
         const newNum = num;
 
-        // Log B: newNum
+        // Log B: newNum 9
+        console.log('B: ', num);
       }
 
       newNum = num;
 
-      // Log C: newNum
+      // Log C: newNum // 4
+      console.log('C: ', num);
     };
 
     const fn2 = function(num){
-      // Log D: num
-
+      // Log D: num // 9
+      console.log('D: ', num);
       num = num + 1;
 
-      // Log E: num
+      // Log E: num // 10
+      console.log('E: ', num);
     };
 
     fn1();
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { A: 4 },
+      { D: 9 },
+      { E: 10 },
+      { B: 9 },
+      { C: 4 }
+    ];
     return result;
 
     // Annotation:
@@ -280,26 +317,40 @@ const scope = {
 
     function eatSnack() {
       hunger -= 25;
-      // Log A: hunger
+      // Log A: hunger // 1st: 75 // 5th: 55
+      console.log('A: ', hunger);
       gorgeYourself();
 
       function gorgeYourself() {
         const hunger = 0;
-        // Log B: hunger
+        // Log B: hunger // 2nd: 0 // 6th: 0
+        console.log('B: ', hunger);
       }
 
-      // Log C: hunger
+      // Log C: hunger // 3rd: 75 // 7th: 55
+      console.log('C: ', hunger);
     }
 
     eatSnack();
 
     hunger += 5;
-    // Log D: hunger
+    // Log D: hunger // 4th: 80
+    console.log('D: ', hunger);
 
     eatSnack();
-    // Log E: hunger
+    // Log E: hunger // 5th: 55 //85th: 55
+    console.log('E: ', hunger);
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [
+      { A:  75 },
+      { B:  0 },
+      { C:  75 },
+      { D:  80 },
+      { A:  55 },
+      { B:  0 } ,     
+      { C:  55 },
+      { E:  55 }
+    ];
     return result;
 
     // Annotation:
@@ -309,22 +360,27 @@ const scope = {
   exerciseJ() {
     let sandwich = 'ketchup sandwich';
 
-    // Log A: sandwich
+    // Log A: sandwich // 1st: ketchup sandwich
+    console.log('A: ', sandwich);
 
     const addChipotle = () => {
-      // Log B: toppings
+      // Log B: toppings // 3rd: undefined
+      console.log('B: ', toppings);
+
       var toppings = 'chipotle sauce';
 
       if (toppings === 'chipotle sauce') { 
         sandwich = 'not a mediocre sandwich';
       }
 
-      // Log C: sandwich
+      // Log C: sandwich // 4th: not a mediocre sandwich
+      console.log('C: ', sandwich);
     };
 
     const addCheese = () => {
       let cheeseTopping = 'gouda';
-      // Log D: cheeseTopping
+      // Log D: cheeseTopping // 2nd: gouda
+      console.log('D: ', cheeseTopping);
 
       const shesTheManReference = () => {
         amandaBynes = 'National Treasure';
@@ -337,8 +393,10 @@ const scope = {
     addCheese();
 
     addChipotle();
-    // Log E: sandwich
-    // Log F: amandaBynes
+    // Log E: sandwich // 5th: not a mediocre sandwich
+    console.log('E: ', sandwich);
+    // Log F: amandaBynes // 6th: National Treasure
+    console.log('F: ', amandaBynes);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
@@ -354,12 +412,14 @@ const scope = {
       if (num > 5) {
         num = 7;
       }
-      // Log A: num
+      // Log A: num // 1st: 7
+      console.log('A: ', num);
     }
 
     foo();
 
-    // Log B: num
+    // Log B: num // 2nd: 7
+    console.log('B: ', num);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
@@ -381,17 +441,21 @@ const scope = {
           let grade = 97;
         }
 
-        // Log A: grade
+        // Log A: grade // 1st: 95
+        console.log('A: ', grade);
       }
 
       addPoints();
 
-      // Log B: grade
+      // Log B: grade // 2nd: 90
+      console.log('B: ', grade);
+
     }
 
     losePoints();
 
-    // Log C: grade
+    // Log C: grade // 3rd: 90
+    console.log('C: ', grade);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
@@ -404,20 +468,24 @@ const scope = {
     var num = 5;
 
     function first() {
-      // Log A: num
+      // Log A: num // 1st: 5
+      console.log('A: ', num);
       num = 6;
-      // Log B: num
+      // Log B: num // 2nd: 6
+      console.log('B: ', num);
     }
 
     function second() {
-      // Log C: num
+      // Log C: num // 3rd: reference error
+      console.log('C: ', num);
       let num = 7;
     }
 
     first();
     second();
 
-    // Log D: num
+    // Log D: num // 4th: 6
+    console.log('D: ', num);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;

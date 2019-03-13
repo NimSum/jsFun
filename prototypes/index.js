@@ -13,8 +13,6 @@ const { dinosaurs, humans, movies } = require('./datasets/dinosaurs');
 
 
 
-
-
 // SINGLE DATASETS
 // =================================================================
 
@@ -23,9 +21,8 @@ const kittyPrompts = {
   orangeKittyNames() {
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = kitties.filter(cat => cat.color === 'orange');
+    return result.map(cat => cat.name);
 
     // Annotation:
     // Write your annotation here as a comment
@@ -34,7 +31,7 @@ const kittyPrompts = {
   sortByAge() {
     // Sort the kitties by their age
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort((a, b) => a.age - b.age).reverse();
     return result;
 
     // Annotation:
@@ -54,12 +51,13 @@ const kittyPrompts = {
     //   color: 'orange'
     // },
     // ...etc]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.map(cat => {
+      cat.age += 2;
+      return cat;
+    });
     return result;
   }
 };
-
 
 
 
@@ -86,16 +84,22 @@ const clubPrompts = {
     //   Pam: ['Drama', 'Art', 'Chess'],
     //   ...etc
     // }
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const allNames = clubs.map(obj => obj.members);
+    const namesArr = new Set(allNames.reduce((acc, elem) => acc.concat(elem)));
+    const result = {};
+    namesArr.forEach(name => {
+      result[name] = [];
+      clubs.forEach(club => {
+        if (club.members.includes(name)) {
+          result[name].push(club.club);
+        }
+      });
+    });
     return result;
-
     // Annotation:
     // Write your annotation here as a comment
   }
 };
-
-
 
 
 
@@ -123,7 +127,11 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [];
+    mods.forEach(mod => {
+      let total = mod.students/mod.instructors;
+      result.push({mod: mod.mod, studentsPerInstructor: total});
+    });
     return result;
 
     // Annotation:
@@ -158,7 +166,10 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [];
+    cakes.forEach(cake => {
+      result.push({ flavor: cake.cakeFlavor, inStock: cake.inStock });
+    });
     return result;
 
     // Annotation:
@@ -186,7 +197,7 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter(cake => cake.inStock > 0);
     return result;
 
     // Annotation:
@@ -197,7 +208,9 @@ const cakePrompts = {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((accum, cake) => {
+      return accum += cake.inStock;
+    }, 0);
     return result;
 
     // Annotation:
@@ -208,8 +221,9 @@ const cakePrompts = {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const toppings = [];
+    cakes.forEach(cake => cake.toppings.forEach(topping => toppings.push(topping)));
+    const result = [...new Set(toppings)];
     return result;
 
     // Annotation:
@@ -226,8 +240,12 @@ const cakePrompts = {
     //    'berries': 2, 
     //    ...etc
     // }
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const toppings = [];
+    const result = {};
+    cakes.forEach(cake => cake.toppings.forEach(topping => toppings.push(topping)));
+    const cleanList = [...new Set(toppings)];
+    const countToppings = (topping) => toppings.filter(item => item === topping).length;
+    cleanList.forEach(topping => result[topping] = countToppings(topping));
     return result;
 
     // Annotation:
@@ -262,7 +280,7 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.filter(room => room.program === 'FE');
     return result;
 
     // Annotation:
@@ -276,8 +294,12 @@ const classPrompts = {
     //   feCapacity: 110,
     //   beCapacity: 96
     // }
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const getRooms = (program) => classrooms.filter(room => room.program === program);
+    const totalCaps = (nums) => nums.map(room => room.capacity).reduce((total, elem) => total += elem);
+    const result = {
+      feCapacity: totalCaps(getRooms('FE')),
+      beCapacity: totalCaps(getRooms('BE'))
+    };
     return result;
 
     // Annotation:
@@ -287,7 +309,7 @@ const classPrompts = {
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort((a, b) => a.capacity - b.capacity);
     return result;
 
     // Annotation:
@@ -317,7 +339,7 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.map(place => place.beers.length).reduce((acc, el) => acc += el);
     return result;
 
     // Annotation:
@@ -333,11 +355,13 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.map(place => {
+      return { name: place.name, beerCount: place.beers.length }
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Write  your annotation here as a comment
   },
 
   findHighestAbvBeer() {
@@ -345,8 +369,9 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const allBeers = breweries.map(place => place.beers).reduce((acc, el) => acc.concat(el));
+    const result = allBeers.sort((b1, b2) => b2.abv - b1.abv);
+    return result[0];
 
     // Annotation:
     // Write your annotation here as a comment
@@ -522,9 +547,12 @@ const astronomyPrompts = {
     //     lightYearsFromEarth: 640,
     //     color: 'red' }
     // ]
-
+    
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
+    // create empty array
+    // create a names Set array and target constellation using dot notation
+    // if a match, push that star into a new array
 
     // Annotation:
     // Write your annotation here as a comment
