@@ -469,7 +469,7 @@ const turingPrompts = {
         let mods = findCohort(skill).map(cohort => cohort.module);
         result[teacher.name].push(...mods);
       });
-      result[teacher.name] = [...new Set(result[teacher.name])];
+      result[teacher.name] = [...new Set(result[teacher.name])].sort();
     });
     return result;
 
@@ -657,8 +657,9 @@ const astronomyPrompts = {
     //    "Orion", 
     //    "The Little Dipper" ]
 
-
-    const result = stars.map(star => star.constellation);
+    let filtered = stars.filter(star => star.constellation !== '');
+    filtered.sort((starA, starB) => starA.visualMagnitude - starB.visualMagnitude);
+    const result = filtered.map(star => star.constellation);
     return result;
 
     // Annotation:
