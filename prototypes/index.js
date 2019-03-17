@@ -98,6 +98,22 @@ const clubPrompts = {
     return result;
     // Annotation:
     // Write your annotation here as a comment
+
+    ///ALTERNATIVE USING REDUCE;
+    // const result = clubs.reduce((obj, el) => {
+    //   el.members.forEach(member => {
+    //     obj[member] = [];
+    //   })
+    //   return obj;
+    // }, {});
+    // clubs.forEach(club => {
+    //   Object.keys(result).forEach(person => {
+    //     if (club.members.includes(person)) {
+    //       result[person].push(club.club);
+    //     }
+    //   })
+    // }) 
+    // return result;
   }
 };
 
@@ -459,17 +475,18 @@ const turingPrompts = {
     //     Christie: [1, 2, 3, 4],
     //     Will: [1, 2, 3, 4]
     //   }
-    const findCohort = (skill) => cohorts.filter(cohort => {
+    const findCohorts = (skill) => cohorts.filter(cohort => {
       return cohort.curriculum.includes(skill);
     });
-    let result = {};
+    const result = {};
     instructors.forEach(teacher => {
       result[teacher.name] = [];
       teacher.teaches.forEach(skill => {
-        let mods = findCohort(skill).map(cohort => cohort.module);
+        let mods = findCohorts(skill).map(cohort => cohort.module);
         result[teacher.name].push(...mods);
       });
-      result[teacher.name] = [...new Set(result[teacher.name])].sort();
+      result[teacher.name] = result[teacher.name].filter((el, i, arr) => i === arr.indexOf(el)).sort();
+      //  = [...new Set(result[teacher.name])].sort();
     });
     return result;
 
@@ -805,25 +822,40 @@ const dinosaurPrompts = {
       }
     */
 
-    const result = {};
+    // const result = {};
+    // const getCastAgeAv = (title) => {
+    //   let movieFound = movies.find(movie => movie.title === title);
+    //   let { cast, yearReleased } = movieFound;
+    //   let ageArray = []; 
+    //   cast.forEach(actor => { //use reduce maybe??
+    //     ageArray.push(yearReleased - humans[actor].yearBorn);
+    //   });
+    //   let agesTotal = ageArray.reduce((acc, el) => acc += el);
+    //   return Math.floor(agesTotal/ageArray.length);
+    // };
+    // movies.forEach(movie => result[movie.director] = {});
+    // Object.keys(result).forEach(director => {
+    //   movies.forEach(movie => {
+    //     if(movie.director === director) {
+    //       result[director][movie.title] = getCastAgeAv(movie.title);
+    //     }
+    //   });
+    // });
     const getCastAgeAv = (title) => {
-      let movieFound = movies.find(movie => movie.title === title);
-      let { cast, yearReleased } = movieFound;
-      let ageArray = [];
-      cast.forEach(actor => {
-        ageArray.push(yearReleased - humans[actor].yearBorn);
-      });
+      let { cast, yearReleased } = movies.find(movie => movie.title === title);
+      let ageArray = cast.map(actor => yearReleased - humans[actor].yearBorn);
       let agesTotal = ageArray.reduce((acc, el) => acc += el);
       return Math.floor(agesTotal/ageArray.length);
-    };
-    movies.forEach(movie => result[movie.director] = {});
-    Object.keys(result).forEach(director => {
-      movies.forEach(movie => {
-        if(movie.director === director) {
-          result[director][movie.title] = getCastAgeAv(movie.title);
-        }
-      });
-    });
+    }
+
+    const result = movies.reduce((acc, el) => {
+      if (!acc[el.director]) {
+        acc[el.director] = {};
+      };
+      acc[el.director][el.title] = getCastAgeAv(el.title);
+      return acc;
+    }, {});
+
     return result;
 
     // Annotation:
@@ -905,10 +937,7 @@ const dinosaurPrompts = {
       if(starredIn[0]) {
         let ages = [];
         starredIn.forEach(mov => ages.push(calcAge(actor, mov)));
-        result.push({
-          name: actor,
-          ages: ages
-        });
+        result.push({ name: actor, ages: ages });
       }
     });
     return result;
