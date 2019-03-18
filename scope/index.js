@@ -11,27 +11,27 @@ const scope = {
       }
 
       function beautifyPerson() {
-        // Log A: personB
-        console.log('person: ', personB); // Ben
+        // Log A: personB// 1st: Ben
+        console.log('person: ', personB); 
         
         if (personB.includes('B')) {
           personB = person;
           personC = personB;
-          // Log B: personC
-          console.log('person: ', personC); // CardiB
+          // Log B: personC // 2nd: CardiB
+          console.log('person: ', personC); 
         }
       }
 
       personC = personA;
 
-      // Log C: personB 
-      console.log('person: ', personB); // 'CardiB'
+      // Log C: personB // 3rd: CardiB
+      console.log('person: ', personB); 
     }
 
     changePerson();
 
-    // Log D: personC 
-    console.log('person: ', personC); // 'Paul'
+    // Log D: personC  // 4th: Paul
+    console.log('person: ', personC);
 
     const result = [
       { A: 'Ben' },
@@ -56,26 +56,26 @@ const scope = {
         let number = 28;
       }
 
-      // Log A: number 
-      console.log('A: ', number); // A, number: 75;
+      // Log A: number  1st: 75
+      console.log('A: ', number); 
 
       function newNumber() {
         number = 64;
 
-        // Log B: number
-        console.log('B: ', number); // B, number: 64;
+        // Log B: number 2nd: 64
+        console.log('B: ', number); 
       }
 
       newNumber();
 
-      // Log C: number
-      console.log('C: ', number); // C, number: 64;
+      // Log C: number // 3rd: 64
+      console.log('C: ', number);
     }
 
     numberFunction();
 
-    // Log D: number 
-    console.log('D: ', number); // D, number: 30;
+    // Log D: number  // 4th: 30;
+    console.log('D: ', number); 
 
     const result = [
       { A: 75 },
@@ -99,22 +99,26 @@ const scope = {
         let greeting = 'Howdy';
       }
 
-      // Log A: greeting
+      // Log A: greeting // 1st: 'Yo'
+      console.log('A: ', greeting);
 
       function newPhrase() {
         greeting = 'Hey';
 
-        // Log B: greeting
+        // Log B: greeting // 2nd: Hey
+        console.log('B: ', greeting);
       }
 
       newPhrase();
 
-      // Log C: greeting
+      // Log C: greeting // 3rd: Hey
+      console.log('C: ', greeting);
     }
 
     greetingFunction();
 
-    // Log D: greeting
+    // Log D: greeting // 4th: Hello
+    console.log('D: ', greeting);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
@@ -133,22 +137,26 @@ const scope = {
         let greeting = 'hello';
       }
 
-      // Log A: greeting
+      // Log A: greeting // 1st: hi
+      console.log('A: ', greeting);
 
       const newGreeting = ()  => {
         greeting = 'welcome';
 
-        // Log B: greeting
+        // Log B: greeting // 2nd: welcome
+        console.log('B: ', greeting);
       };
 
       newGreeting();
 
-      // Log C: greeting
+      // Log C: greeting //3rd: welcome
+      console.log('C: ', greeting);
     };
 
     greetingGenerator();
-
-    // Log D: greeting
+ 
+    // Log D: greeting // 4th: howdy
+    console.log('D: ', greeting);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
@@ -170,17 +178,21 @@ const scope = {
           let name = 'Brittany';
         }
 
-        // Log A: name
+        // Log A: name //2nd: Nathaniel
+        console.log('A: ', name);
       }
 
-      // Log B: name
+      // Log B: name // 3rd: Nathaniel
+      console.log('B: ', name);
     }
 
-    // Log C: name
+    // Log C: name //1st : Brittany
+    console.log('C: ', name);
 
     sayName();
 
-    // Log D: name
+    // Log D: name // 4th: Brittany
+    console.log('D: ', name);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
@@ -189,33 +201,38 @@ const scope = {
     // Write your annotation here as a comment
   },
 
-  exerciseF() {
+  exerciseF() { // GLOBAL SCOPE
     var dog = 'Spot';
 
-    function petDog() {
-      // Log A: dog
+    function petDog() { // FUNC SCOPE
+      // Log A: dog// 1st: Spot
+      console.log('A: ', dog);
 
-      if (dog === 'Spot') {
+      if (dog === 'Spot') { // BLOCK SCOPE
         let dog = 'Fluffy';
       }
 
-      function rollOver() {
-        // Log B: dog
+      function rollOver() { // FUNC SCOPE
+        // Log B: dog // 2nd: Spot
+        console.log('B: ', dog);
 
         dog = 'Biscuit';
 
-        // Log C: dog
+        // Log C: dog // 3rd: Biscuit
+        console.log('C: ', dog);
 
       }
 
       rollOver();
 
-      // Log D: dog
+      // Log D: dog // 4th: Biscuit
+      console.log('D: ', dog);
     }
 
     petDog();
 
-    // Log E: dog
+    // Log E: dog // 5th: Biscuit
+    console.log('E: ', dog);
 
     const result = 'REPLACE WITH YOUR RESULT HERE';
     return result;
